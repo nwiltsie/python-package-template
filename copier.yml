@@ -1,0 +1,48 @@
+---
+project_name:
+  type: str
+  help: Human-readable project name
+
+description:
+  type: str
+  help: One-line project / package description
+
+module_name:
+  type: str
+  help: Python package name
+  default: "{{ project_name | lower | replace(' ', '_') }}"
+  validator: >-
+    {% if not (module_name | regex_search('^[a-z][a-z0-9_]+$')) %}
+    module_name must start with a letter, followed one or more lowercase letters, digits, or underscores.
+    {% endif %}
+
+use_entrypoint:
+  type: bool
+  default: false
+  help: Do you want to use an entrypoint script?
+
+entrypoint_name:
+  type: str
+  default: "{{ module_name }}"
+  help: Entrypoint script name
+  when: "{{ use_entrypoint }}"
+
+repo_owner:
+  type: str
+  help: GitHub repository owner
+  default: nwiltsie
+
+repo_name:
+  type: str
+  help: GitHub repository name
+  default: "{{ module_name }}"
+
+author_name:
+  type: str
+  help: Project author name
+  default: Nicholas Wiltsie
+
+author_email:
+  type: str
+  help: Project author email
+  default: nwiltsie@alum.mit.edu

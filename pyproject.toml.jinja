@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name =  "{{module_name}}"
+dynamic = ["version"]
+authors = [
+    {name = "{{author_name}}", email = "{{author_email}}"},
+]
+description = "{{description}}"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11"
+]
+requires-python = ">=3.8.1"
+
+[project.optional-dependencies]
+test = [
+    "pytest==7.3.1",
+]
+
+[project.urls]
+Documentation = "https://github.com/{{repo_owner}}/{{repo_name}}/tree/main#readme"
+Source = "https://github.com/{{repo_owner}}/{{repo_name}}"
+Tracker = "https://github.com/{{repo_owner}}/{{repo_name}}/issues"
+{% if use_entrypoint %}
+[project.scripts]
+{{entrypoint_name}} = "{{module_name}}.__main__:main"
+{% endif %}
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+git_describe_command = "git describe --dirty --tags --long --match 'v[0-9]*.[0-9]*.[0-9]*'"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "{{module_name}}/_version.py"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+env_list =
+    py3.8
+    py3.12
+
+[testenv]
+deps = pytest
+commands = pytest test --doctest-modules --junitxml=junit/test-results.xml
+"""

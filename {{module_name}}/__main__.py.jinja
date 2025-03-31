@@ -1,0 +1,17 @@
+"""Console script main entrance"""
+
+import argparse
+
+from .common import configure_logging
+
+
+def main():
+    """The main entrypoint"""
+    configure_logging()
+
+    parser = argparse.ArgumentParser()
+    parser.parse_args()
+
+
+if __name__ == "__main__":
+    main()
