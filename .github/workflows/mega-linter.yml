@@ -32,6 +32,6 @@ jobs:
           token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
       - name: MegaLinter
-        uses: oxsecurity/megalinter/flavors/python@v8
+        uses: oxsecurity/megalinter/flavors/python@v9
         env:
           VALIDATE_ALL_CODEBASE: true
